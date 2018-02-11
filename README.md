@@ -1,1 +1,1 @@
-# Class string from me
+#String class from me
