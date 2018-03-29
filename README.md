@@ -1,4 +1,4 @@
-#MyString
+# MyString
 
-My container implementation is string
+My container implementation is string.
 
