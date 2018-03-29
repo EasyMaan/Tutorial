@@ -1,1 +1,4 @@
-#String class from me
+#MyString
+
+My container implementation is string
+
