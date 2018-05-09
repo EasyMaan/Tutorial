@@ -9,7 +9,7 @@ public:
 
 	String(char *str);
 
-    String(const String &other);
+    	String(const String &other);
 
 	String(String &&other);
 
