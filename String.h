@@ -23,7 +23,7 @@ public:
 
 	char& operator[](int index);
 	
-	int Length();
+	int getLength();
 
 	~String();
 private:
