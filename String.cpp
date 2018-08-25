@@ -98,7 +98,7 @@ char& String::operator[](int index)
 	return this->str[index];
 }
 	
-int String::Length()
+int String::getLength()
 {
 	return length;
 }
