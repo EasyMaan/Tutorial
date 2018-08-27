@@ -1,77 +1,73 @@
 #include "String.h"
 
+//Constructors
 String::String()
 {
 	str = nullptr;
 	length = 0;
 }
 
-String::String(char *str)
+String::String(const char *str)
 {
-	length = strlen(str);
-	this->str = new char[length + 1];
-	for (int i = 0; i < length; i++)
-	{
-		this->str[i] = str[i];
-	}
-	this->str[length] = '\0';
+	strcpy(str, this->str);
 }
 
-String::String(const String &other)
+String::String(const String const &other)
 {
-	length = strlen(other.str);
-	this->str = new char[length + 1];
-	for (int i = 0; i < length; i++)
-	{
-		this->str[i] = other.str[i];
-	}
-	this->str[length] = '\0';
+	if (str != nullptr)
+		delete[] str;
+
+	strcpy(other.str, this->str);
 }
 
 String::String(String &&other)
 {
-	this->length = other.length;
-	this->str = other.str;
+	length = other.length;
+	str = other.str;
 	other.str = nullptr;
 }
 
-String& String::operator = (const String &other)
+String::~String()
 {
-	if (this->str != nullptr)
-	{
+	delete[] str;
+}
+
+//Operators
+String& String::operator=(const String const &other)
+{
+	if (str != nullptr)
 		delete[] str;
-	}
-	length = strlen(other.str);
-	this->str = new char[length + 1];
-	for (int i = 0; i < length; i++)
-	{
-		this->str[i] = other.str[i];
-	}
-	this->str[length] = '\0';
+
+	strcpy(other.str, this->str);
+
 	return *this;
 }
 
-String String::operator + (const String &other)
+String String::operator+(const String &other)
 {
 	String newStr;
-	newStr.length = strlen(this->str) + strlen(other.str);
-	newStr.str = new char[strlen(this->str) + strlen(other.str) + 1];
+	newStr.length = this->length + other.length;
+	newStr.str = new char[newStr.length + 1];
+
 	int i = 0;
-	for (; i < strlen(this->str); i++)
+	for (; i < this->length; i++)
 	{
 		newStr.str[i] = this->str[i];
 	}
-	for (int j = 0; j < strlen(other.str); j++, i++)
+
+	for (int j = 0; j < other.length; j++, i++)
 	{
 		newStr.str[i] = other.str[j];
 	}
-	newStr.str[strlen(this->str) + strlen(other.str)] = '\0';
+
+	newStr.str[newStr.length] = '\0';
+
 	return newStr;
 }
 
-bool String::operator == (const String &other)
+bool String::operator==(const String const &other)
 {
-	if (this->length != other.length)
+	if (length != other.length)
 	{
 		return false;
 	}
@@ -79,31 +75,61 @@ bool String::operator == (const String &other)
 	{
 		for (int i = 0; i < length; i++)
 		{
-			if (this->str[i] != other.str[i])
-			{
+			if (str[i] != other.str[i])
 				return false;
-			}
 		}
 	}
 	return true;
 }
 
-bool String::operator != (const String &other)
+bool String::operator!=(const String const &other)
 {
 	return !(this->operator==(other));
 }
 
-char& String::operator[](int index)
+char& String::operator[](const int index)
 {
-	return this->str[index];
+	return str[index];
 }
-	
-int String::getLength()
+
+std::ostream& operator<<(std::ostream &os, const String &other)
+{
+	os << other.str;
+	return os;
+}
+
+std::istream& operator>>(std::istream &is, const String &other)
+{
+	is >> other.str;
+	return is;
+}
+
+//Public methods
+size_t String::getLength() const
 {
 	return length;
 }
 
-String::~String()
+//Private methods
+size_t String::strlen(const char *str) const
 {
-	delete[] this->str;
+	size_t count = 0;
+
+	while (str[count] != '\0')
+		count++;
+
+	return count;
+}
+
+void String::strcpy(const char *from, char *&to)
+{
+	length = strlen(from);
+	to = new char[length + 1];
+
+	for (int i = 0; i < length; i++)
+	{
+		to[i] = from[i];
+	}
+
+	to[length] = '\0';
 }
