@@ -1,34 +1,30 @@
-#include "stdafx.h"
+#include <fstream>
 
-using namespace std;
-
+#pragma once
 class String
 {
 public:
 	String();
-
-	String(char *str);
-
-    	String(const String &other);
-
+	String(const char *str);
+	String(const String &other);
 	String(String &&other);
-
-	String& operator = (const String &other);
-
-	String operator + (const String &other);
-
-	bool operator == (const String &other);
-
-	bool operator != (const String &other);
-
-	char& operator[](int index);
-	
-	int getLength();
-
 	~String();
+
+	String& operator=(const String const &other);
+	String operator+(const String const &other);
+	bool operator==(const String const &other);
+	bool operator!=(const String const &other);
+	char& operator[](const int index);
+	friend std::ostream& operator<<(std::ostream &os, const String &other);
+	friend std::istream& operator>>(std::istream &is, const String &other);
+
+	size_t getLength() const;
+
 private:
-	char *str;
+	char* str;
 	int length;
-	friend ostream& operator << (ostream &os, String &other);
-	friend istream& operator >> (istream &is, String &other);
+	
+	size_t strlen(const char *str) const;
+	void strcpy(const char *from, char *&to);
 };
+
