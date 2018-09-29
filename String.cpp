@@ -115,7 +115,7 @@ size_t String::strlen(const char *str) const
 {
 	size_t count = 0;
 
-	while (str[count] != '\0')
+	while (str[count])
 		count++;
 
 	return count;
@@ -127,9 +127,7 @@ void String::strcpy(const char *from, char *&to)
 	to = new char[length + 1];
 
 	for (int i = 0; i < length; i++)
-	{
 		to[i] = from[i];
-	}
 
 	to[length] = '\0';
 }
